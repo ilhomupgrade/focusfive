@@ -4,9 +4,9 @@ type FullCalendarGridProps = {
   currentMonth: Date;
 }
 
-const FullCalendarGrid: React.FC<FullCalendarGridProps> = ({ currentMonth }) => {
-  // Days of the week headers
-  const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const FullCalendarGrid: React.FC<FullCalendarGridProps> = ({ currentMonth: _currentMonth }) => {
+  // Days of the week headers - reserved for future use
+  void ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   
   // Generate calendar days for the current view
   // For this example, we're using fixed data to match the image

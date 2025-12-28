@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { format, addDays, subDays, startOfWeek, getDay, addWeeks, subWeeks, 
-  startOfMonth, endOfMonth, getMonth, getYear, setMonth, addMonths, subMonths,
-  isSameMonth, isToday, parseISO, isSameDay, isSameWeek, getISOWeek } from 'date-fns';
-import { ChevronLeft, ChevronRight, Plus, Settings, Calendar as CalendarIcon, Eye } from 'lucide-react';
+import { format, addDays, startOfWeek, addWeeks, subWeeks,
+  startOfMonth, getMonth, getYear, addMonths, subMonths,
+  isSameMonth, isSameDay, isSameWeek, getISOWeek } from 'date-fns';
+import { ChevronLeft, ChevronRight, Plus, Eye } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 type Task = {
@@ -30,7 +30,7 @@ const RUSSIAN_MONTHS = [
   'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
 ];
 
-const Calendar: React.FC<CalendarProps> = ({ month = new Date() }) => {
+const Calendar: React.FC<CalendarProps> = () => {
   // Current view settings
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<ViewMode>('week');
@@ -195,29 +195,6 @@ const Calendar: React.FC<CalendarProps> = ({ month = new Date() }) => {
     }
     
     setMonthDays(weeks);
-  };
-
-  // Save user settings to Supabase
-  const saveUserSettings = async () => {
-    if (!userId) return;
-    
-    try {
-      const { error } = await supabase
-        .from('user_settings')
-        .upsert({
-          user_id: userId,
-          view_mode: viewMode,
-          focus_mode: focusModeEnabled
-        });
-
-      if (error) {
-        console.error('Error saving user settings:', error);
-        setErrorMessage('Ошибка при сохранении настроек');
-        setTimeout(() => setErrorMessage(null), 3000);
-      }
-    } catch (error) {
-      console.error('Unexpected error saving settings:', error);
-    }
   };
 
   // Get the ISO week number for the current date
@@ -755,14 +732,12 @@ const Calendar: React.FC<CalendarProps> = ({ month = new Date() }) => {
   const renderWeekView = () => {
     // Get today's date for focus mode highlight
     const today = new Date();
-    const todayDateKey = formatDateKey(today);
-    
+
     return (
       <div className="flex-1 flex flex-col">
         {/* Days of week header */}
         <div className="grid grid-cols-8 border-b border-neutral-700/60 bg-[#121212]">
           {weekDays.map((date, index) => {
-            const dateKey = formatDateKey(date);
             const isTodayDate = isSameDay(date, today);
             
             return (

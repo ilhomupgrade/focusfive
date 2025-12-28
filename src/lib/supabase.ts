@@ -48,7 +48,7 @@ export const checkDatabaseConnection = async () => {
 };
 
 // Check connection
-supabase.auth.onAuthStateChange((event, session) => {
+supabase.auth.onAuthStateChange((event, _session) => {
   if (event === 'SIGNED_OUT') {
     console.log('User signed out');
   } else if (event === 'SIGNED_IN') {
